@@ -257,7 +257,12 @@ export default function Home() {
           </div>
 
           <div className="flex-1 bg-gray-50 rounded-3xl p-5 mb-4">
-            <p className="text-[#1c1c1c] text-[15px] leading-relaxed">{description}</p>
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              className="w-full bg-transparent text-[#1c1c1c] text-[15px] leading-relaxed resize-none outline-none"
+              rows={6}
+            />
           </div>
 
           <button
