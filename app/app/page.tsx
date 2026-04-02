@@ -19,9 +19,6 @@ export default async function AppPage({
     .eq('status', 'active')
     .filter('tools', 'cs', '{"propertysnap"}')
 
-  console.log('[PropertySnap auth] token:', token)
-  console.log('[PropertySnap auth] data:', JSON.stringify(data))
-  console.log('[PropertySnap auth] error:', JSON.stringify(error))
 
   if (!data || data.length === 0) {
     return <AccessDenied />
