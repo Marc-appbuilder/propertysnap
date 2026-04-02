@@ -13,6 +13,27 @@ const TONES: { value: Tone; label: string; hint: string }[] = [
 ]
 
 const MAX_IMAGES = 5
+const MAX_DIM = 1200  // resize long edge to this before sending
+const JPEG_QUALITY = 0.82
+
+async function resizeFile(file: File): Promise<ImageItem> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      const scale = Math.min(1, MAX_DIM / Math.max(img.width, img.height))
+      const w = Math.round(img.width * scale)
+      const h = Math.round(img.height * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      canvas.getContext('2d')!.drawImage(img, 0, 0, w, h)
+      resolve({ src: canvas.toDataURL('image/jpeg', JPEG_QUALITY), mediaType: 'image/jpeg' })
+    }
+    img.src = url
+  })
+}
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('landing')
@@ -24,22 +45,18 @@ export default function App() {
   const [copied, setCopied] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
     if (!files.length) return
-
-    files.slice(0, MAX_IMAGES - images.length).forEach(file => {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImages(prev => {
-          const next = [...prev, { src: reader.result as string, mediaType: file.type || 'image/jpeg' }]
-          return next
-        })
-        setScreen('preview')
-      }
-      reader.readAsDataURL(file)
-    })
     e.target.value = ''
+
+    const slots = MAX_IMAGES - images.length
+    const toProcess = files.slice(0, slots)
+
+    // Resize all files in parallel
+    const resized = await Promise.all(toProcess.map(resizeFile))
+    setImages(prev => [...prev, ...resized])
+    setScreen('preview')
   }
 
   const removeImage = (index: number) => {
