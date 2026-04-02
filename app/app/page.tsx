@@ -12,15 +12,18 @@ export default async function AppPage({
     return <AccessDenied />
   }
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('clients')
-    .select('id')
+    .select('id, token, status, tools')
     .eq('token', token)
     .eq('status', 'active')
-    .contains('tools', ['propertysnap'])
-    .single()
+    .filter('tools', 'cs', '{"propertysnap"}')
 
-  if (!data) {
+  console.log('[PropertySnap auth] token:', token)
+  console.log('[PropertySnap auth] data:', JSON.stringify(data))
+  console.log('[PropertySnap auth] error:', JSON.stringify(error))
+
+  if (!data || data.length === 0) {
     return <AccessDenied />
   }
 
