@@ -161,6 +161,7 @@ export default function PropertySnapApp() {
           </button>
 
           <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageSelect} className="hidden" />
+          <p className="text-xs text-gray-600 text-center mt-4">Add 3–5 photos for the best description</p>
         </div>
       )}
 

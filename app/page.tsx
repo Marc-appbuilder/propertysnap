@@ -38,6 +38,7 @@ export default function Landing() {
           >
             Try it free →
           </Link>
+          <p className="mt-4 text-xs text-gray-600">Built exclusively for UK estate agents</p>
         </div>
 
         {/* Scroll nudge */}
