@@ -24,7 +24,7 @@ export default function Landing() {
         {/* Hero */}
         <div className="flex flex-col items-center text-center py-16 flex-1 justify-center">
           <h1 className={`${playfair.className} text-4xl sm:text-5xl font-bold leading-tight mb-6 max-w-lg`}>
-            Photo to property description{' '}
+            Professional property descriptions from your photos,{' '}
             <em className="text-[#C9A84C] not-italic">in seconds</em>
           </h1>
 
