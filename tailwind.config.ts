@@ -8,6 +8,9 @@ const config: Config = {
         charcoal: '#1c1c1c',
         gold: '#C9A84C',
       },
+      fontFamily: {
+        playfair: ['var(--font-playfair)', 'serif'],
+      },
     },
   },
   plugins: [],
