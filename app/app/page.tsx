@@ -248,29 +248,27 @@ export default function App() {
       )}
 
       {screen === 'result' && (
-        <div className="flex flex-col flex-1">
-          {images.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto pb-2 mb-5">
-              {images.map((img, i) => (
-                <div key={i} className="flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden">
-                  <img src={img.src} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-widest">{tone}</span>
-            <span className="text-gray-200">·</span>
-            <span className="text-xs text-gray-400">AI-generated description</span>
+        <div className="flex flex-col flex-1 min-h-0">
+          {/* Compact thumbnail strip + tone label on one line */}
+          <div className="flex items-center gap-3 mb-3">
+            {images.length > 0 && (
+              <div className="flex gap-1.5 overflow-x-auto">
+                {images.map((img, i) => (
+                  <div key={i} className="flex-shrink-0 w-10 h-10 rounded-lg overflow-hidden">
+                    <img src={img.src} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
+            <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-widest ml-auto whitespace-nowrap">{tone}</span>
           </div>
 
-          <div className="flex-1 bg-gray-50 rounded-3xl p-5 mb-4">
+          {/* Textarea fills all remaining space */}
+          <div className="flex-1 min-h-0 bg-gray-50 rounded-3xl p-5 mb-4 flex flex-col">
             <textarea
               value={description}
               onChange={e => setDescription(e.target.value)}
-              className="w-full bg-transparent text-[#1c1c1c] text-[15px] leading-relaxed resize-none outline-none"
-              rows={6}
+              className="flex-1 w-full bg-transparent text-[#1c1c1c] text-[15px] leading-relaxed resize-none outline-none"
             />
           </div>
 
@@ -285,7 +283,7 @@ export default function App() {
 
           <button
             onClick={handleStartAgain}
-            className="w-full py-3.5 rounded-2xl border-2 border-gray-100 text-sm font-semibold text-gray-500 hover:border-gray-200 hover:text-gray-700 transition-all"
+            className="text-sm text-gray-400 hover:text-gray-600 transition-colors py-2"
           >
             Start Again
           </button>
