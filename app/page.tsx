@@ -38,7 +38,9 @@ export default function Landing() {
           >
             Try it free →
           </Link>
-          <p className="mt-4 text-xs text-gray-600">Built exclusively for UK estate agents</p>
+          <span className="mt-4 inline-block text-white/50 text-[12px] px-[14px] py-[6px] rounded-[20px] bg-[#2a2a2a] border border-white/8">
+            Built exclusively for UK estate agents
+          </span>
         </div>
 
         {/* Scroll nudge */}
