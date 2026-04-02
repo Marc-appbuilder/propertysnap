@@ -33,7 +33,7 @@ export default function Landing() {
           </p>
 
           <Link
-            href="/app"
+            href="/app?token=demo-token"
             className="inline-block px-8 py-4 bg-[#C9A84C] text-[#1c1c1c] font-semibold rounded-2xl text-base shadow-lg hover:bg-[#d9b85c] active:scale-[0.98] transition-all"
           >
             Try it free →
