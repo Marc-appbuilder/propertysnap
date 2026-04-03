@@ -41,6 +41,7 @@ export default function PropertySnapApp() {
   const [tone, setTone]               = useState<Tone>('Standard')
   const [description, setDescription] = useState('')
   const [loading, setLoading]         = useState(false)
+  const [processing, setProcessing]   = useState(false)
   const [error, setError]             = useState('')
   const [copied, setCopied]           = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -49,8 +50,10 @@ export default function PropertySnapApp() {
     const files = Array.from(e.target.files || [])
     if (!files.length) return
     e.target.value = ''
+    setProcessing(true)
     const resized = await Promise.all(files.slice(0, MAX_IMAGES - images.length).map(resizeFile))
     setImages(prev => [...prev, ...resized])
+    setProcessing(false)
     setScreen('preview')
   }
 
@@ -123,6 +126,15 @@ export default function PropertySnapApp() {
         <span className="font-playfair text-xl text-[#C9A84C] tracking-wide">PropertySnap</span>
         <p className="text-gray-600 text-xs">Professional property descriptions in seconds</p>
       </header>
+
+      {/* ── Processing overlay ── */}
+      {processing && (
+        <div className="fixed inset-0 bg-[#1c1c1c]/90 backdrop-blur-sm flex flex-col items-center justify-center z-50 gap-4">
+          <Spinner large />
+          <p className="text-white font-semibold">Preparing photos…</p>
+          <p className="text-gray-500 text-sm">This only takes a moment</p>
+        </div>
+      )}
 
       {/* ── Home screen ── */}
       {screen === 'home' && (
@@ -305,9 +317,9 @@ function CheckIcon() {
   )
 }
 
-function Spinner() {
+function Spinner({ large }: { large?: boolean }) {
   return (
-    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+    <svg className={`${large ? 'w-10 h-10' : 'w-4 h-4'} animate-spin text-[#C9A84C]`} fill="none" viewBox="0 0 24 24">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
     </svg>
